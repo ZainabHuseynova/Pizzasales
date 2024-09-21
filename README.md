@@ -1,6 +1,4 @@
-Bu layihədə SQL və Power BI istifadə edərək pizza satışları üzərində analiz aparılmışdır. Məqsəd, satış trendlərini anlamaq, ən çox satılan məhsulları müəyyən etmək və performansı artırmaq üçün əsas göstəriciləri izləməkdir.
+SQL və Power BI istifadə edərək pizza satışları üzərində analiz aparılmışdır. Təhlil, mağazanın ümumi satış göstəricilərini, sifarişlərin zamanla dəyişən trendlərini və pizza kateqoriyalarının performansını qiymətləndirir.
 
 Əsas məqsəd:
-Satışların analizi-Satış tarixçəsi əsasında müştəri davranışlarını və trendləri təhlil etmək.
-Performans göstəriciləri-Satışların effektivliyini dəyərləndirmək.
-Vizualizasiya-Power BI istifadə edərək satış göstəricilərinin qrafik təsviri ilə daha yaxşı nəticə əldə etmək.
+Satılan pizzaların sayını, ümumi sifarişləri və gəlirləri təhlil etmək, fərqli pizza kateqoriyaları üzrə satışlar və gəlir dərəcələrini qiymətləndirmək, günlərə və aylara görə sifarişlərin artma və azalma meyllərini müəyyən etmək, ən çox və ən az satılan pizzaları müəyyənləşdirməkdir.
