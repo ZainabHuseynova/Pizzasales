@@ -1,0 +1,112 @@
+select * from pizzasales
+
+select sum(p.total_price) as Total_Revenue
+from pizzasales p
+
+select sum(p.total_price)/count(distinct p.order_id) as Average_Order 
+from pizzasales p
+
+select sum(p.quantity) as Total_Sold
+from pizzasales p
+
+select count(distinct p.order_id) as Total_Order
+from pizzasales p
+
+--Averages Pizzas Per Order
+select cast(
+cast (sum(p.quantity) as decimal(10,2)) /
+cast (count (distinct p.order_id) as decimal(10,2))  as decimal (10,2) )
+as Avg_Pizza_Per_Order
+from pizzasales p
+
+--Daily Trend for Total Orders
+select to_char (p.order_date,'Day') as Order_date, 
+count(distinct p.order_id) as Total_Orders
+from pizzasales p
+group by to_char (p.order_date,'Day')
+
+--Monthly Trend for Total Orders
+select to_char (p.order_date,'Month') as Month_name, 
+count(distinct p.order_id) as Total_Orders
+from pizzasales p
+group by to_char (p.order_date,'Month')
+
+--% of Sales by Pizza Category
+select p.pizza_category, sum(p.total_price) as Total_revenue,
+cast (sum(p.total_price)*100/ (select sum(p.total_price) from pizzasales p) as decimal (10,2)) as PCT
+from pizzasales p
+group by p.pizza_category
+
+--% of Sales by Pizza Size
+select p.pizza_size,
+cast (sum (p.total_price)*100 / (select sum(p.total_price) from pizzasales p) as decimal (10,3)) as ptc
+from pizzasales p
+group by p.pizza_size
+order by p.pizza_size desc
+
+--Total Pizzas Sold by Pizza Category
+select p.pizza_category, sum(p.quantity) as Total_Sold
+from pizzasales p
+group by p.pizza_category
+
+--Top 5 Pizzas by Revenue
+select p.pizza_name, sum(p.total_price) as Total_Revenue
+from pizzasales p
+group by p.pizza_name
+order by Total_Revenue desc
+fetch first 5 rows only
+
+--Bottom 5 Pizzas by Revenue
+select p.pizza_name, sum(p.total_price) as Total_Revenue
+from pizzasales p
+group by p.pizza_name
+order by Total_Revenue asc
+fetch first 5 rows only
+
+--Top 5 Pizzas by Total Orders
+select p.pizza_name, count(distinct p.order_id) as Total_sold
+from pizzasales p
+group by p.pizza_name
+order by Total_sold desc
+fetch first 5 row only
+
+--Bottom 5 Pizzas by Total Orders 
+select p.pizza_name, count(distinct p.order_id) as Total_sold
+from pizzasales p
+group by p.pizza_name
+order by Total_sold asc
+fetch first 5 row only
+
+--Which hours each pizza category is most ordered
+select pizza_category, to_char(order_time, 'HH24') as order_hour, sum(quantity) as total_sold
+from pizzasales
+group by pizza_category, to_char(order_time, 'HH24')
+order by order_hour;
+
+--Only orders placed between 12:00 PM and 2:00 PM
+select pizza_category, to_char(order_time, 'HH24') as order_hour, sum(quantity) as total_sold
+from pizzasales
+where to_char(order_time, 'HH24') between '12' and '14'
+group by pizza_category, to_char(order_time, 'HH24')
+order by order_hour;
+
+--Sales of pizzas priced over $15
+select pizza_name, unit_price, sum(quantity) as total_sold
+from pizzasales
+where unit_price > 15
+group by pizza_name, unit_price
+order by unit_price desc;
+
+--How many pizzas from the Classic category were sold at 1:00 PM
+select pizza_name, sum(quantity) as total_sold
+from pizzasales
+where pizza_category = 'Classic' and to_char(order_time, 'HH24') = '13'
+group by pizza_name;
+
+
+--The sales of pizzas that contain chicken
+select pizza_name, sum(quantity) as total_sold
+from pizzasales
+where pizza_ingredients like '%Chicken%'
+group by pizza_name
+order by total_sold desc;
